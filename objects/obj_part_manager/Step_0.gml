@@ -1,0 +1,2 @@
+x += velh;
+y += velv;

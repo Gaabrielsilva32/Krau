@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_efeito_som",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_efeito_som",
+  "parent":{
+    "name":"Efeito_som",
+    "path":"folders/Efeitos2/Efeito_som.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

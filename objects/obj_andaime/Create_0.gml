@@ -21,13 +21,17 @@ chao = false;
 right           = false;
 left            = false;
 jump            = false;
+power_tinta     = false;
+
+//janela que mostra os debugs
+view_player     = noone;
 
 //var que dita a minha direção
 dir             = 1;
 
 
 //var pra guardar a colisão do tileset do chão
-var _layer      = layer_tilemap_get_id("tl_chao");
+var _layer      = layer_tilemap_get_id("tl_fundo");
 
 //variavel que quarda as colisões que eu tenho no jogo
 colisoes        = [_layer];
@@ -213,6 +217,15 @@ acabou_animacao = function(){
 }
 
 
+//pega powerup
+pega_powerup = function()
+{
+    
+    estado = estado_pegando_powerup_inicio;
+    
+}
+
+
 
 //metodos de estado
 //metodo do estado parado
@@ -261,7 +274,7 @@ estado_parado = function(){
     if (power_tinta)
     {
         //vou para o estado de entrar na tinta
-       // estado = estado_player_tinta_entrar;
+        estado = estado_player_tinta_entrar;
     }
     
 }
@@ -305,7 +318,7 @@ estado_movendo = function(){
     if (power_tinta)
     {
         //vou pro estado de entrar na tinta
-       // estado = estado_player_tinta_entrar;
+        estado = estado_player_tinta_entrar;
         
     }
 }

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_efeito_branco",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_efeito_branco",
+  "parent":{
+    "name":"scr_efeito_branco",
+    "path":"folders/Efeitos2/Efeito_branco/scr_efeito_branco.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
