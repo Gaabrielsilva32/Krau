@@ -13,6 +13,7 @@
     {"$GMFolder":"","%Name":"Objetos","folderPath":"folders/Objetos.yy","name":"Objetos","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Player","folderPath":"folders/Sprites/Player.yy","name":"Player","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tileset","folderPath":"folders/Sprites/Tileset.yy","name":"Tileset","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tileset","folderPath":"folders/Tileset.yy","name":"Tileset","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
@@ -25,7 +26,9 @@
   },
   "name":"Krau",
   "resources":[
+    {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"spr_player_idle","path":"sprites/spr_player_idle/spr_player_idle.yy",},},
     {"id":{"name":"spr_tileset","path":"sprites/spr_tileset/spr_tileset.yy",},},
     {"id":{"name":"tl_fundo","path":"tilesets/tl_fundo/tl_fundo.yy",},},
   ],
