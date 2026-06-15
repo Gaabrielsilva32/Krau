@@ -150,10 +150,10 @@ movimento = function(){
     //faz com que se movimente
     //e colida com os obj
     //4 é o valor padrão da precisão da colisão
-    move_and_collide(velh, velv, colisoes, 4);
+    move_and_collide(0, velv, colisoes, 4);
     
     //aplicando à velv
-    move_and_collide(0, velv, colisoes, 24);
+    move_and_collide(velh, velv, colisoes, 24);
 }
 
 
