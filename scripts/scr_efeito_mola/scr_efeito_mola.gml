@@ -26,5 +26,6 @@ function desenhando_ef_mola()
 }
 
 
+
 //colocar no draw
 //if (mostrar) desenha_efeito_branco(desenhando_ef_mola);
