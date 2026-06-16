@@ -223,6 +223,9 @@ estado_parado = function(){
     velh = 0;
     velv = 0;
     
+    //vou pra spr idle
+    troca_sprite(spr_player_idle);
+    
     //aplico a velocidade
     //nesse estado eu não vou me mover
     //só aplico pra conseguir pular
@@ -274,7 +277,7 @@ estado_movendo = function(){
     aplica_velocidade_player();
     
     //denifinindo a sprite
-  //  troca_sprite(spr_player_move);
+    troca_sprite(spr_player_walk);
     
     
     //se a minha velh é zero
@@ -323,7 +326,7 @@ estado_pulando = function(){
     if (velv < 0)
     {
         //troco o sprite
-       // troca_sprite(spr_player_jump_cima);
+        troca_sprite(spr_player_jump_up);
         
         //se o obj_parede_one_way EXISTE na mnha array
         if (array_contains(colisoes, obj_parede_one_way))
@@ -344,7 +347,7 @@ estado_pulando = function(){
     }
     else //se estou caindo, a minha velv é positiva 
     {
-    	//troca_sprite(spr_player_jump_baixo);
+    	troca_sprite(spr_player_jump_down);
         
         //var pra verificar se estou colidindo com a parede one way
         var _parede_one_way_colidindo = place_meeting(x, y, obj_andaime);
