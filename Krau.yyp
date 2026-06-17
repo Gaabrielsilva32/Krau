@@ -54,6 +54,7 @@
     {"id":{"name":"obj_andaime","path":"objects/obj_andaime/obj_andaime.yy",},},
     {"id":{"name":"obj_flash","path":"objects/obj_flash/obj_flash.yy",},},
     {"id":{"name":"obj_hitstop_maneger","path":"objects/obj_hitstop_maneger/obj_hitstop_maneger.yy",},},
+    {"id":{"name":"obj_inimigo","path":"objects/obj_inimigo/obj_inimigo.yy",},},
     {"id":{"name":"obj_parede_one_way","path":"objects/obj_parede_one_way/obj_parede_one_way.yy",},},
     {"id":{"name":"obj_part_linha","path":"objects/obj_part_linha/obj_part_linha.yy",},},
     {"id":{"name":"obj_part_manager","path":"objects/obj_part_manager/obj_part_manager.yy",},},

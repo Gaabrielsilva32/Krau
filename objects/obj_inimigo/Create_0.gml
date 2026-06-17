@@ -4,10 +4,15 @@
 //velocidade 
 //horizontal e vertical do player
 velh     = 0;
-max_velh = 2;
+max_velh = 1;
 velv     = 0;
 max_velv = 3.01;
 vel      = 2;
+
+// Variáveis de tempo para a patrulha
+tempo_espera = 1 * game_get_speed(gamespeed_fps); 
+timer_espera = 0;
+
 
 //gavidade do player
 grav = 0.25;
@@ -16,11 +21,8 @@ grav = 0.25;
 //verfica se estou no chão
 chao = false;
 
-
-//vars inputs
-right           = false;
-left            = false;
-jump            = false;
+//verifica se toquei em uma parede
+parede = false;
 
 //var que dita a minha direção
 dir             = 1;
@@ -41,29 +43,6 @@ inicio_ef_mola();
 
 #region Métodos
 
-
-//metodo de pegar os inputs
-pega_inputs = function()
-{
-    //o keyboard_set_map faz com que tanto a primeira tecla
-    //quanto a segunda, respondam da mesma forma
-    //ele diz "finja que a key 1 é a key 2"
-    //e então elas passam a agir da mesma forma
-    //a key 1 deixa de existir para o game maker
-    //portanto para chamar a key, tenho que chamar pela key 2
-    keyboard_set_map(vk_right, ord("D"));
-    keyboard_set_map(vk_left, ord("A"));
-   
-    //dando os valores 
-    //só passo o valor da segunda tecla escolhida no keyboard_set_map
-    //porque ela é a principal
-    right       = keyboard_check(ord("D"));
-    left        = keyboard_check(ord("A"));
-    jump        =  keyboard_check_pressed(vk_space);
-    power_tinta = keyboard_check_pressed(vk_shift);
-}
-
-
 //metodo pra ajustar escala do player
 ajusta_escala = function(){
     
@@ -81,6 +60,7 @@ ajusta_escala = function(){
 }
 
 
+
 //criando um método para checar se estou no chão
 checa_chao = function()
 {   
@@ -89,6 +69,12 @@ checa_chao = function()
     
 }
 
+checa_parede = function()
+{
+    
+    parede = place_meeting(x + dir, y, colisoes);
+    
+}
 
 //método para aplicar a velocidade à variaveis 
 aplica_velocidade_player = function()
@@ -97,13 +83,7 @@ aplica_velocidade_player = function()
     //checo se estou no chão
     checa_chao();
     
-    // o valor da var é boleano
-    //ou seja, 0 ou 1
-    //se estou apertando é 1, se não estou, é 0*
-    //esse código define pra qual direção eu vou
-    //e multiplica pela vel
-    velh = (right - left) * max_velh;
-    
+    checa_parede();
     
     //se não estou no chão
     if (!chao) 
@@ -119,20 +99,6 @@ aplica_velocidade_player = function()
         
         //aredondando o y
         y = round(y)
-        
-        //se estou no chão e pulei
-        if (jump)
-        {
-            //eu subo;
-            velv -= max_velv;            
-            
-            //faço a particula
-            //instance_create_depth(x, y, depth, obj_player_pulo_particula);
-            
-            //efeito mola
-            ef_mola(0.6, 1.2)
-            
-        }   
         
         //limitando o meu velv
         velv = clamp(velv, -max_velv, max_velv);
@@ -186,21 +152,6 @@ acabou_animacao = function(){
     //que é 60
     var _spd = sprite_get_speed(sprite_index) / FPS;
     
-    //se a minha animação correu todos os frames
-    //o image_index é o frame que eu tô no momento
-    //e o image_number é o total de frames da minha animação
-    //se o image index passar o image number, eu terminei a animação, certo?
-    //mais ou menos
-    //o imagem index vai subindo com numero que quebrado
-    //mas da onde vem esse numero? vem do calculo feito na _spd, a vel do sprite
-    // dividido pelo fps do jogo
-    //e como esse número é quebrado, nem sempre ele vai parar num número inteiro
-    //então ele pode "comer" alguns frames. Se esse frame "comido" for o ultimo
-    //a função não retorna true, que por sua vez -futuramente- não avança para o
-    //próximo estado da animação. Ele chega muito perto do último, mas aí
-    //ele reinicia. Como resolver?
-    //simples: somando o número quebrado ao sprite index.
-    //assim, eu compenso o número quebrado e ele não vai mais comer o último frame.
     if (image_index + _spd >= image_number)
     {
        
@@ -236,22 +187,14 @@ estado_parado = function(){
     //se estou apertando pra dirteita ou esquerda
     //diferente de, porque não posso apertar os 2 ao mesmo tempo
     //se são diferentes, estou me movendo
-    if (right != left)
-    {
+   // if (right != left)
+   // {
         //mudo o estado para movendo
-        estado = estado_movendo;
+   //     estado = estado_movendo;
         
-    }
+  //  }
     
-    //se eu apertei espaço, vou para o estado de pulando
-    if (jump and estado)
-    {
-        estado = estado_pulando;
-        
-        //faço a particula
-        //instance_create_depth(x, y, depth, obj_player_pulo_particula);
-        
-    }
+    
     
     //se eu não estou no chão, vou para o estado de pulando
     if (!chao)
@@ -259,25 +202,29 @@ estado_parado = function(){
         estado = estado_pulando;
         
     }
-    
-    //se apertei shift
-    if (power_tinta)
-    {
-        //vou para o estado de entrar na tinta
-       // estado = estado_player_tinta_entrar;
-    }
-    
 }
 
 //método do estado movendo
 estado_movendo = function(){
     
+    //aplico velocidade
+    velh = vel * dir;
+     
     //passando o aplica velocidade
     //para pegar a velocidade certa
     aplica_velocidade_player();
     
     //denifinindo a sprite
     troca_sprite(spr_player_walk);
+    
+    
+    // SE TOCOU NA PAREDE:
+    if (parede)
+    {
+        //velh = 0;                        // Para o movimento horizontal
+        timer_espera = tempo_espera;     // Inicia o cronômetro com 2 segundos
+        estado = estado_esperando;       // Muda para o estado de espera
+    }
     
     
     //se a minha velh é zero
@@ -293,29 +240,14 @@ estado_movendo = function(){
     //então eu não to no chão
     //ent, eu vou pro estado de pulando
     if (velv != 0) estado = estado_pulando;
-    
-    
-    //se estou me movendo e apertei pra pular
-    if (jump)
-    {
-        estado = estado_pulando;
-        
-        //faço a particula
-      //  instance_create_depth(x, y, depth, obj_player_pulo_particula);
-    }
-    
-    //se apertar shift
-    if (power_tinta)
-    {
-        //vou pro estado de entrar na tinta
-       // estado = estado_player_tinta_entrar;
-        
-    }
 }
 
 
 //método do estado pulando
 estado_pulando = function(){
+    
+    //aplico velocidade
+    velh = vel * dir;
     
     //passando o aplica velocidade
     //para pegar a velocidade certa
@@ -374,7 +306,7 @@ estado_pulando = function(){
     if (chao)
     {
         //vou para o estado de parado
-        estado = estado_parado;
+        estado = estado_movendo;
         
         //faço a particula
        // instance_create_depth(x, y, depth, obj_player_pouso_particula);
@@ -384,10 +316,37 @@ estado_pulando = function(){
     }
 }
 
+estado_esperando = function()
+{
+    
+    //paro ele horizontalmente
+    velh = 0;
+    
+    // Aplica gravidade e checa o chão normalmente enquanto espera
+    aplica_velocidade_player();
+    
+    // Muda para a sprite dele parado
+    troca_sprite(spr_player_idle);
+    
+    // Diminui o timer a cada frame
+    timer_espera--;
+    
+    // Quando o tempo acabar (chegar a 0 ou menos)
+    if (timer_espera <= 0)
+    {
+        dir = -dir;               // Vira para o lado contrário
+        estado = estado_movendo;  // Volta a andar
+    }
+    
+    // Se por acaso ele cair de uma plataforma enquanto espera
+    if (velv != 0) estado = estado_pulando;
+    
+}
+
 
 #endregion
 
 
 //aqui ficam as últimas coisas do meu create
 //a var estado, armazena o estado atual do player
-estado = estado_parado;
+estado = estado_movendo;
