@@ -29,6 +29,9 @@ function desfaz_hitstop()
 		with(all)
 		{
 			image_speed = 0;
+            
+            velh = 0;
+            velv = 0;
 		}
 		
 		trava_backgrounds(lista_backgrounds);

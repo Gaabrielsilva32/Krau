@@ -26,6 +26,10 @@ jump            = false;
 dir             = 1;
 
 
+timer_vida = 0;
+contador_vida = 60;
+
+
 //var pra guardar a colisão do tileset do chão
 var _layer      = layer_tilemap_get_id("tl_chao");
 
@@ -213,6 +217,24 @@ acabou_animacao = function(){
 }
 
 
+//perde vida
+perde_vida = function()
+{
+    
+    if (place_meeting(x, y, obj_inimigo) && timer_vida <= 0)
+    {
+        
+        global.vida_player--;
+        
+        screenshake(4)
+        
+        chama_hitstop(10);
+        
+        timer_vida = contador_vida;
+        
+    }
+}
+
 
 //metodos de estado
 //metodo do estado parado
@@ -230,6 +252,7 @@ estado_parado = function(){
     //nesse estado eu não vou me mover
     //só aplico pra conseguir pular
     aplica_velocidade_player();
+    
     
     //definindo a sprite player
     //troca_sprite(spr_player_idle);
@@ -278,7 +301,6 @@ estado_movendo = function(){
     
     //denifinindo a sprite
     troca_sprite(spr_player_walk);
-    
     
     //se a minha velh é zero
     //ou seja, se estou parado

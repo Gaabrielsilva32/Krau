@@ -7,6 +7,9 @@ checa_chao();
 //método de movimento
 movimento();
 
+
+perde_vida();
+
 //finalizando o efeito mola
 fim_ef_mola();
 
@@ -15,6 +18,7 @@ ajusta_escala();
 //passando a var/função estado, que roda o meu estado atual
 estado();
 
+timer_vida--;
 
 if (keyboard_check_pressed(ord("R"))) room_restart();
 
